@@ -8,10 +8,22 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 import requests
 from django.shortcuts import render, redirect
+from django.urls import reverse
 import speech_recognition as sr
+from .forms import NewUserForm, UserLoginForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate  # add this
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+
+
+def index(request):
+    return redirect(reverse("login"))
 
 
 # Create your views here.
+@login_required(login_url="login")
 def home(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
     everything = newsapi.get_everything(sources="al-jazeera-english")
@@ -35,6 +47,7 @@ def home(request):
 API_KEY = "5e712cb029c5432e82fa92a5ec4083b2"
 
 
+@login_required(login_url="login")
 def newscategory(request):
 
     articles = None
@@ -59,6 +72,8 @@ def newscategory(request):
 
     return render(request, "newscategory2.html", context)
 
+
+@login_required(login_url="login")
 def bbc(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
     topheadlines = newsapi.get_top_headlines(sources="cnn")
@@ -81,6 +96,7 @@ def bbc(request):
 
 
 
+@login_required(login_url="login")
 def cnn(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
     topheadlines = newsapi.get_top_headlines(sources="cnn")
@@ -102,6 +118,7 @@ def cnn(request):
     return render(request, "cnn.html", context={"mylist": mylist})
 
 
+@login_required(login_url="login")
 def espn(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
     topheadlines = newsapi.get_top_headlines(sources="espn-cric-info")
@@ -123,12 +140,12 @@ def espn(request):
     return render(request, "espn.html", context={"mylist": mylist})
 
 
-def login(request):
-    return render(request, "login.html",)
-
-
+@login_required(login_url="login")
 def feedback(request):
-    return render(request, "feedback.html",)
+    return render(
+        request,
+        "feedback.html",
+    )
 
 
 def save_form(request):
@@ -145,18 +162,47 @@ def save_form(request):
     return render(request, "feedback.html")
 
 
-def reg_form(request):
-    if request.method == "POST":
-        firstName = request.POST["firstName"]
-    lastName = request.POST["lastName"]
-    email = request.POST["email"]
-    password = request.POST["password"]
-    data = Registeration(
-        firstName=firstName, lastName=lastName, email=email, password=password
-    )
+def login(request):
 
-    data.save()
-    return redirect("login")
+    form = AuthenticationForm()
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        username = request.POST["username"]
+        password = request.POST["password"]
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            print(user, form)
+            if user is not None:
+                auth_login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect(reverse("home"))
+            else:
+                print(user)
+                messages.error(request, "Invalid username or password.")
+
+    return render(request=request, template_name="login.html", context={"form": form})
+
+
+def register(request):
+    form = NewUserForm()
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            print(user)
+            messages.success(request, "Registration successful.")
+
+            return redirect(reverse("login"))
+
+    return render(request, "register.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+
+    return redirect(reverse("login"))
 
 
 # def transcribe_speech(audio_file):

@@ -2,6 +2,6 @@ Django
 django-filter
 python-decouple
 django-crispy-forms
-newsapi
+# newsapi
 newsapi-python
 SpeechRecognition

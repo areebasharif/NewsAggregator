@@ -3,23 +3,32 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 
-class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField(help_text="A valid email address, please.", required=True)
+
+class UserLoginForm(AuthenticationForm):
+    # email = forms.EmailField(help_text="A valid email address, please.", required=True)
 
     class Meta:
-        model = get_user_model()
+        model = User
         fields = [
-            "first_name",
-            "last_name",
             "username",
-            "email",
-            "password1",
-            "password2",
+            "password",
         ]
 
+
+class NewUserForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
     def save(self, commit=True):
-        user = super(UserRegisterForm, self).save(commit=False)
+        user = super(NewUserForm, self).save(commit=False)
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
