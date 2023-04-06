@@ -70,7 +70,7 @@ def newscategory(request):
 
     context = {"articles": articles}
 
-    return render(request, "newscategory2.html", context)
+    return render(request, "newscategory.html", context)
 
 
 @login_required(login_url="login")

@@ -1,0 +1,36 @@
+<div id="hero-image">
+    <div class="wrapper">
+        <h2 class="font-effect-shadow-multiple"
+            style="font-family: Audiowide, sans-serif; text-shadow: 5px 5px 5px #ababab; color: #000000;">
+            THE NAME YOU KNOW <br> & News You Need.</h2>
+
+        <form method="post" action="newscategory" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for=" transcribed_text">Say the category you want to read:</label>
+            <input type="text" name="transcribed_text" id="transcribed_text" name="voice">
+            <button type="button" onclick="startRecording()">Start Recording</button>
+            <button type="button" onclick="stopRecording()">Stop Recording</button>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+        <script>
+            var transcribed_text_input = document.getElementById('transcribed_text');
+
+            function startRecording() {
+                // Use the browser's built-in Web Speech API to start recording the user's voice
+                var recognition = new webkitSpeechRecognition();
+                recognition.onresult = function (event) {
+                    var transcribed_text = event.results[0][0].transcript;
+                    transcribed_text_input.value = transcribed_text;
+                };
+                recognition.start();
+            }
+
+            function stopRecording() {
+                // Stop recording the user's voice
+                recognition.stop();
+            }
+        </script>
+
+    </div>
+</div>

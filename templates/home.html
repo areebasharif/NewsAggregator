@@ -2,22 +2,9 @@
 {% load static%}
 
 {% block main-content %}
-<div id="hero-image">
-  <div class="wrapper">
-    <h2 class="font-effect-shadow-multiple"
-      style="font-family: Audiowide, sans-serif; text-shadow: 5px 5px 5px #ababab; color: #000000;">
-      THE NAME YOU KNOW <br> & News You Need.</h2>
-    <form action="" method="get">
-      <input type="text" name="category">
-      <button type="submit" value="Search">Search</button>
-    </form>
-
-  </div>
-</div>
 <section class="section">
   {% block content %}
   <div class="container">
-
     <div class="row">
       {% for title, desc, i in mylist %}
       <div class="col-sm-4" style="padding:20px;">
@@ -44,11 +31,3 @@
 {% endblock %}
 
 {% endblock %}
-
-
-
-
-
-</body>
-
-</html>
