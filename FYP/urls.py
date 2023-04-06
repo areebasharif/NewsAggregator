@@ -25,7 +25,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("fyp_app.urls")),
     path("saveform/", views.save_form, name="saveform"),
-    path("reg_form/", views.reg_form, name="Regform"),
+    # path("reg_form/", views.reg_form, name="Regform"),
     # path('register', views.register, name='register'),
-
 ]
