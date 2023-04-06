@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static%}
+
+
+
+{% block main-content %}
+<h2>Search Category</h2>
+
+<div class="d-flex">
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for=" transcribed_text">Say the category you want to read:</label>
+        <input type="text" name="transcribed_text" id="transcribed_text" name="voice">
+        <button type="button" onclick="startRecording()">Start Recording</button>
+        <button type="button" onclick="stopRecording()">Stop Recording</button>
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
+
+
+
+<script>
+    var transcribed_text_input = document.getElementById('transcribed_text');
+
+    function startRecording() {
+        // Use the browser's built-in Web Speech API to start recording the user's voice
+        var recognition = new webkitSpeechRecognition();
+        recognition.onresult = function (event) {
+            var transcribed_text = event.results[0][0].transcript;
+            transcribed_text_input.value = transcribed_text;
+        };
+        recognition.start();
+    }
+
+    function stopRecording() {
+        // Stop recording the user's voice
+        recognition.stop();
+    }
+</script>
+<section class="section">
+    <div class="container">
+
+        <div class="row">
+
+            {% for i in articles %}
+
+            <div class="col-sm-4" style="padding:20px;">
+                <div class="zoom">
+
+
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="col-sm">
+                                <img src="{{ i.urlToImage }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <p class="card-text">{{ i.author }}</p>
+                                    <h5 class="card-title">{{ i.title }}</h5>
+                                    <p class="card-title">{{ i.source.name }}</p>
+                                    <p class="card-text">{{ i.description }}</p>
+                                    <hr>
+                                    <small>date: {{ i.publishedAt }}</small>
+                                    <a href="{{ i.url }}" target="_blank" class="btn btn-success m-1">See News</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </article>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

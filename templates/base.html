@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+{% load static %}
+
+<head>
+    {% include '_partiales/headers.html' %}
+
+</head>
+
+<body>
+    <div id="header">
+        {% include '_partiales/nav_bar_primary.html' %}
+
+    </div>
+    <div id="main-content">
+        {% block main-content %}
+        {% endblock %}
+    </div>
+    <!-- <div id="footer">
+        {% include '_partiales/footer.html' %}
+    </div> -->
+
+    {% include '_partiales/footer.html' %}
+
+    {% block custom-js %}
+
+    {% endblock %}
+
+</body>

@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+    
+    <section class="section">
+        {% block content %}
+          <div class="container">
+              
+                  <div class="row">
+                      {% for title, desc, i in mylist %}
+                      <div class="col-sm-4" style="padding:20px;">
+                      <div class="zoom" style= "width: 20rem;  height:500px; 
+                      text-align: center;  border-radius: 25px;   box-shadow: 10px 10px  #adad85;">
+                  
+                     
+                          <article class="media"  >
+                              <div class="media-content">
+                                  <div class="col-sm" >
+                                      <p >
+                                          <h2 class="title" style="font-size:20px; margin-top:-10px;">{{ title }}</h2>
+                                          <br>
+                                          <img src="{{ i }}" alt="" style="padding-bottom:20px; height:250px; ">
+                                          <span class="subtitle">{{ desc }}</span>
+                                          
+                                      </p>
+                                  </div>
+                              </div>
+                          </article>
+                      </div>
+                    </div>
+                      {% endfor %}
+                
+          </div>
+      </section>
+      {% endblock %}
