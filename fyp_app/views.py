@@ -59,28 +59,26 @@ def newscategory(request):
 
     return render(request, "newscategory2.html", context)
 
-
 def bbc(request):
-    r = requests.get(
-        "https://newsapi.org/v2/everything?language=en&apiKey=5e712cb029c5432e82fa92a5ec4083b2"
-    )
-    res = r.json()
-    print(res)
-    data = res["data"]
-    title = []
+    newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
+    topheadlines = newsapi.get_top_headlines(sources="cnn")
+    articles = topheadlines["articles"]
+
     desc = []
+    news = []
     img = []
-    url = []
 
-    for i in data:
-        title.append(i["title"])
-    desc.append(i["desc"])
-    img.append(i["img"])
-    url.append(i["url"])
+    for i in range(len(articles)):
+        myarticles = articles[i]
 
-    news = zip(title, desc, img, url)
+        news.append(myarticles["title"])
+        desc.append(myarticles["description"])
+        img.append(myarticles["urlToImage"])
 
-    return render(request, "bbc.html", {"news": news})
+    mylist = zip(news, desc, img)
+
+    return render(request, "bbc.html", context={"mylist": mylist})
+
 
 
 def cnn(request):
@@ -122,7 +120,7 @@ def espn(request):
 
     mylist = zip(news, desc, img)
 
-    return render(request, "index.html", context={"mylist": mylist})
+    return render(request, "espn.html", context={"mylist": mylist})
 
 
 def login(request):

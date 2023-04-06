@@ -9,5 +9,5 @@ urlpatterns = [
     path("newscategory/", newscategory, name="newscategory"),
     path("feedback/", feedback, name="feedback"),
     path("espn/", espn, name="ESPN"),
-    # path('home/myhome/', myhome, name = 'myhome'),
+   
 ]
