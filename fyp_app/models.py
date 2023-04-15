@@ -21,15 +21,3 @@ class Registeration(models.Model):
     timeStamp = models.DateTimeField(auto_now_add=True, blank=True)
 
 
-class Document(models.Model):
-    docfile = models.FileField(upload_to="documents/%Y/%m/%d")
-
-
-# Create your models here.
-class Chat(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    message = models.CharField(max_length=255)
-    user = models.ForeignKey(User, related_name="messages", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.message

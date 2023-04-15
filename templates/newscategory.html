@@ -1,9 +1,24 @@
-{% extends "base.html" %}
-{% load static%}
+<!DOCTYPE html>
 
-{% block main-content %}
-<h2>Search Category</h2>
-<section class="section">
+<html>
+{% load static %}
+
+<head>
+    {% include '_partiales/headers.html' %}
+
+</head>
+
+<body>
+    <div id="header">
+        {% include '_partiales/nav_bar_primary.html' %}
+
+    </div>
+    <div id="main-content">
+
+        {% block main-content %}
+        {% endblock %}
+    </div>
+<section class="section" style="background-color:#ffffff;">
     {% block content %}
     <div class="container">
 
@@ -26,7 +41,7 @@
                                     <p class="card-text">{{ i.description }}</p>
                                     <hr>
                                     <small>date: {{ i.publishedAt }}</small>
-                                    <a href="{{ i.url }}" target="_blank" class="btn btn-success m-1">See News</a>
+                                    <a href="{{ i.url }}" target="_blank" class="btn btn-success m-1" style="background-color:#ff8c1a"> See News</a>
                                 </div>
                             </div>
                         </div>
@@ -41,6 +56,12 @@
     </div>
 </section>
 
-{% endblock %}
 
 {% endblock %}
+{% include '_partiales/footer.html' %}
+
+{% block custom-js %}
+
+{% endblock %}
+
+</body>

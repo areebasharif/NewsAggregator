@@ -1,20 +1,20 @@
-{% extends "base.html" %}
+
 {% load static%}
 
 
 
 {% block main-content %}
-<h2>Search Category</h2>
+<h2>Search Results</h2>
 
 <div class="d-flex">
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for=" transcribed_text">Say the category you want to read:</label>
-        <input type="text" name="transcribed_text" id="transcribed_text" name="voice">
-        <button type="button" onclick="startRecording()">Start Recording</button>
-        <button type="button" onclick="stopRecording()">Stop Recording</button>
-        <input type="submit" value="Submit">
+        <input type="text" placeholder="Search..." name="transcribed_text" id="transcribed_text" name="voice">
+        <input type="button" onclick="startRecording()"  value="Start Recording">
+        <input type="button" class="button" onclick="stopRecording()"  value="Stop Recording">
+        <input type="submit"  value="Search">
     </form>
 
 </div>

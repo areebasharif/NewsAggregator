@@ -1,33 +1,57 @@
-{% extends 'home.html' %}
+<!DOCTYPE html>
 
-<section class="section">
-    {% block content %}
-    <div class="container">
+<html>
+{% load static %}
 
-        <div class="row">
-            {% for title, desc, i in mylist %}
-            <div class="col-sm-4" style="padding:20px;">
-                <div class="zoom" style="width: 20rem;  height:500px;
-                      text-align: center;  border-radius: 25px;   box-shadow: 10px 10px  #adad85;">
+<head>
+    {% include '_partiales/headers.html' %}
 
+</head>
 
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="col-sm">
-                                <p>
-                                <h2 class="title" style="font-size:20px; margin-top:-10px;">{{ title }}</h2>
-                                <br>
-                                <img src="{{ i }}" alt="" style="padding-bottom:20px; height:250px; ">
-                                <span class="subtitle">{{ desc }}</span>
+<body>
+    <div id="header">
+        {% include '_partiales/nav_bar_primary.html' %}
 
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-            {% endfor %}
+    </div>
+    <div id="main-content">
 
-        </div>
-</section>
-{% endblock %}
+        {% block main-content %}
+        {% endblock %}
+    </div>
+    <section class="section" style="background-color:#ffffff">
+        {% block content %}
+          <div class="container" >
+              
+                  <div class="row" style="font-size:20px;">
+                      {% for title, desc, i in mylist %}
+                      <div class="col-sm-4" style="padding:20px;">
+                      <div class="zoom">
+                  
+                     
+                          <article class="media" >
+                              <div class="media-content" >
+                                  <div class="col-sm">
+                                      <p >
+                                          <h6 class="title" >{{ title }}</h6>
+                                          <br>
+                                          <img src="{{ i }}" alt="" style="padding-bottom:20px;  height:250px; ">
+                                          <div class="subtitle">{{ desc }}</div>
+                                          
+                                      </p>
+                                  </div>
+                              </div>
+                          </article>
+                      </div>
+                    </div>
+                      {% endfor %}
+                
+          </div>
+      </section>
+      {% endblock %}
+      {% include '_partiales/footer.html' %}
+
+      {% block custom-js %}
+  
+      {% endblock %}
+  
+  </body>

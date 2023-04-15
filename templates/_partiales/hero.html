@@ -1,17 +1,24 @@
+{% load static %}
 <div id="hero-image">
     <div class="wrapper">
-        <h2 class="font-effect-shadow-multiple"
-            style="font-family: Audiowide, sans-serif; text-shadow: 5px 5px 5px #ababab; color: #000000;">
-            THE NAME YOU KNOW <br> & News You Need.</h2>
+        <h2 style="margin-top:250px; text-shadow: 0 0 20px #FF0000, 0 0 5px #b34700;   font-family:Gabriola ;">
+            The Name You Know <br> & News You Need!</h2>
 
         <form method="post" action="newscategory" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for=" transcribed_text">Say the category you want to read:</label>
-            <input type="text" name="transcribed_text" id="transcribed_text" name="voice">
-            <button type="button" onclick="startRecording()">Start Recording</button>
-            <button type="button" onclick="stopRecording()">Stop Recording</button>
+            <div class="search-container">
+                
+                
+             
+            <input type="text" placeholder="  Search Category Here..." name="transcribed_text" id="transcribed_text" name="voice">
+            <img src="{% static "images/searchicon1.png"%}" alt="search icon">
+        </div>
+            
+            <input type="button" onclick="startRecording()"  value="Start Recording">
+            <input type="button" class="fa fa-search" onclick="stopRecording()"  value="Stop Recording">
+            <input type="submit" value="Search...">
             <br><br>
-            <input type="submit" value="Submit">
+           
         </form>
         <script>
             var transcribed_text_input = document.getElementById('transcribed_text');

@@ -12,13 +12,13 @@ from django.urls import reverse
 import speech_recognition as sr
 from .forms import NewUserForm, UserLoginForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate  # add this
+from django.contrib.auth import login, authenticate 
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 
-def index(request):
+def login(request):
     return redirect(reverse("login"))
 
 
@@ -52,17 +52,10 @@ def newscategory(request):
 
     articles = None
 
-    # if request.GET:
-    #     category = request.GET.get("category")
-    #     url = f"https://newsapi.org/v2/top-headlines?language=en&category={category}&apiKey={API_KEY}"
-    #     response = requests.get(url)
-    #     data = response.json()
-    #     articles = data["articles"]
 
     if request.POST:
         data = request.POST.dict()
         category = data["transcribed_text"]
-        print("category ------------>", category)
         url = f"https://newsapi.org/v2/top-headlines?language=en&category={category}&apiKey={API_KEY}"
         response = requests.get(url)
         resp = response.json()
@@ -76,8 +69,8 @@ def newscategory(request):
 @login_required(login_url="login")
 def bbc(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
-    topheadlines = newsapi.get_top_headlines(sources="cnn")
-    articles = topheadlines["articles"]
+    everything = newsapi.get_everything(sources="bbc-news" , language="en")
+    articles = everything["articles"]
 
     desc = []
     news = []
@@ -99,8 +92,8 @@ def bbc(request):
 @login_required(login_url="login")
 def cnn(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
-    topheadlines = newsapi.get_top_headlines(sources="cnn")
-    articles = topheadlines["articles"]
+    everything = newsapi.get_everything(sources="cnn" , language="en")
+    articles = everything["articles"]
 
     desc = []
     news = []
@@ -121,8 +114,8 @@ def cnn(request):
 @login_required(login_url="login")
 def espn(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
-    topheadlines = newsapi.get_top_headlines(sources="espn-cric-info")
-    articles = topheadlines["articles"]
+    everything = newsapi.get_everything(sources="espn-cric-info", language="en")
+    articles = everything["articles"]
 
     desc = []
     news = []
@@ -158,7 +151,7 @@ def save_form(request):
     else:
         en = Contact(name=name, email=email, message=message)
         en.save()
-    messages.success(request, "Your message has been successfully sent")
+ 
     return render(request, "feedback.html")
 
 
@@ -205,41 +198,3 @@ def logout_view(request):
     return redirect(reverse("login"))
 
 
-# def transcribe_speech(audio_file):
-#     r = sr.Recognizer()
-#     with sr.AudioFile(audio_file) as source:
-#         audio = r.record(source)
-#     try:
-#         # Transcribe the audio file into text
-#         transcribed_text = r.recognize_google(audio)
-#         return transcribed_text
-#     except sr.UnknownValueError:
-#         # Handle unrecognized speech
-#         return ""
-
-
-# def category_selection(request):
-
-#     if request.method == "POST":
-#         # Get the transcribed text from the user's spoken input
-#         transcribed_text = transcribe_speech(audio_file)
-#         response = requests.get(
-#             f"https://newsapi.org/v2/top-headlines?category={transcribed_text}&apiKey=API_KEY"
-#         )
-#         articles = response.json().get("articles")
-
-#         articles = []
-#         for article_data in response.json().get("articles"):
-#             article = {
-#                 "title": article_data.get("title"),
-#                 "description": article_data.get("description"),
-#                 "url": article_data.get("url"),
-#                 "image_url": article_data.get("urlToImage"),
-#                 "published_at": article_data.get("publishedAt"),
-#             }
-#     articles.append(article)
-#     # Render the filtered articles on a template
-#     return render(request, "article_selection.html", {"articles": articles})
-
-#     # Render the initial page with a form for voice input
-#     return render(request, "voice.html")
