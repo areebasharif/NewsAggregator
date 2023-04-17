@@ -12,7 +12,7 @@ from django.urls import reverse
 import speech_recognition as sr
 from .forms import NewUserForm, UserLoginForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, authenticate 
+from django.contrib.auth import login, authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -28,20 +28,10 @@ def home(request):
     newsapi = NewsApiClient(api_key="5e712cb029c5432e82fa92a5ec4083b2")
     everything = newsapi.get_everything(sources="al-jazeera-english")
     articles = everything["articles"]
-    desc = []
-    news = []
-    img = []
 
-    for i in range(len(articles)):
-        myarticles = articles[i]
+    context = {"articles": articles}
 
-        news.append(myarticles["title"])
-        desc.append(myarticles["description"])
-        img.append(myarticles["urlToImage"])
-
-    mylist = zip(news, desc, img)
-
-    return render(request, "home.html", context={"mylist": mylist})
+    return render(request, "home.html", context=context)
 
 
 API_KEY = "5e712cb029c5432e82fa92a5ec4083b2"
@@ -72,20 +62,9 @@ def bbc(request):
     everything = newsapi.get_everything(sources="bbc-news" , language="en")
     articles = everything["articles"]
 
-    desc = []
-    news = []
-    img = []
+    context = {"articles": articles}
 
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles["title"])
-        desc.append(myarticles["description"])
-        img.append(myarticles["urlToImage"])
-
-    mylist = zip(news, desc, img)
-
-    return render(request, "bbc.html", context={"mylist": mylist})
+    return render(request, "bbc.html", context=context)
 
 
 
@@ -95,20 +74,9 @@ def cnn(request):
     everything = newsapi.get_everything(sources="cnn" , language="en")
     articles = everything["articles"]
 
-    desc = []
-    news = []
-    img = []
+    context = {"articles": articles}
 
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles["title"])
-        desc.append(myarticles["description"])
-        img.append(myarticles["urlToImage"])
-
-    mylist = zip(news, desc, img)
-
-    return render(request, "cnn.html", context={"mylist": mylist})
+    return render(request, "cnn.html", context=context)
 
 
 @login_required(login_url="login")
@@ -117,20 +85,9 @@ def espn(request):
     everything = newsapi.get_everything(sources="espn-cric-info", language="en")
     articles = everything["articles"]
 
-    desc = []
-    news = []
-    img = []
+    context = {"articles": articles}
 
-    for i in range(len(articles)):
-        myarticles = articles[i]
-
-        news.append(myarticles["title"])
-        desc.append(myarticles["description"])
-        img.append(myarticles["urlToImage"])
-
-    mylist = zip(news, desc, img)
-
-    return render(request, "espn.html", context={"mylist": mylist})
+    return render(request, "espn.html", context=context)
 
 
 @login_required(login_url="login")
@@ -151,7 +108,7 @@ def save_form(request):
     else:
         en = Contact(name=name, email=email, message=message)
         en.save()
- 
+
     return render(request, "feedback.html")
 
 

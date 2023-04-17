@@ -20,38 +20,40 @@
     </div>
     <section class="section" style="background-color:#ffffff">
         {% block content %}
-          <div class="container" >
-              
-                  <div class="row" style="font-size:20px;">
-                      {% for title, desc, i in mylist %}
-                      <div class="col-sm-4" style="padding:20px;">
-                      <div class="zoom">
-                  
-                     
-                          <article class="media" >
-                              <div class="media-content" >
-                                  <div class="col-sm">
-                                      <p >
-                                          <h6 class="title" >{{ title }}</h6>
-                                          <br>
-                                          <img src="{{ i }}" alt="" style="padding-bottom:20px;  height:250px; ">
-                                          <div class="subtitle">{{ desc }}</div>
-                                          
-                                      </p>
-                                  </div>
-                              </div>
-                          </article>
-                      </div>
-                    </div>
-                      {% endfor %}
-                
-          </div>
-      </section>
-      {% endblock %}
-      {% include '_partiales/footer.html' %}
+        <div class="container">
 
-      {% block custom-js %}
-  
-      {% endblock %}
-  
-  </body>
+            <div class="row" style="font-size:20px;">
+                {% for i in articles %}
+                <div class="col-sm-4" style="padding:20px;">
+                    <div class="zoom">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="col-sm">
+                                    <img src="{{ i.urlToImage }}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <p class="card-text">{{ i.author }}</p>
+                                        <h5 class="card-title">{{ i.title }}</h5>
+                                        <p class="card-title">{{ i.source.name }}</p>
+                                        <p class="card-text">{{ i.description }}</p>
+                                        <hr>
+                                        <small>date: {{ i.publishedAt }}</small>
+                                        <a href="{{ i.url }}" target="_blank" class="btn btn-success m-1"
+                                            style="background-color:#ff8c1a"> See News</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+    </section>
+    {% endblock %}
+    {% include '_partiales/footer.html' %}
+
+    {% block custom-js %}
+
+    {% endblock %}
+
+</body>
